@@ -95,7 +95,6 @@ def mix(matrix, amt = 10):
 		matrix = mix_func.get(id_operation)'''
 
 
-
 	mix_func = ['transpone(matrix)',
 				'reverce_x(matrix)',
 				'reverce_y(matrix)',
