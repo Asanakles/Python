@@ -1,5 +1,6 @@
 import sys
 
+# for debugging
 def print_maze(maze,x,y):
     for i in range(len(maze)):
         s = ''
@@ -13,12 +14,13 @@ def print_maze(maze,x,y):
         print s
     print ' '
 
-
+# main class to escape from the maze
 class My_run(object):
 
     def __init__(self,my_task):
         self.my_task = my_task
-
+            
+    # X position ahead
     def front_x(self,pos_x):
         if self.orientation%4==1:
             return pos_x+1
@@ -27,6 +29,7 @@ class My_run(object):
         else:
             return pos_x
 
+    # Y position ahead
     def front_y(self,pos_y):
         if self.orientation%4==0:
             return pos_y-1
@@ -35,24 +38,30 @@ class My_run(object):
         else:
             return pos_y
 
+    # checks ahead
     def face_check(self):
+        # try to going forward
         if self.my_task.go():
             self.black_box[self.front_y(self.box_y)][self.front_x(self.box_x)]=0 
             self.front_go()            
+            # 0 Nord
             if self.box_y == 0:
                 temp =[[]]
                 for i in range(len(self.black_box[1])):
                     temp[0].append(5)
                 self.black_box = temp + self.black_box
                 self.box_y+=1
+            # 1 East
             elif self.box_x == len(self.black_box[0])-1:
                 for i in range(len(self.black_box)):
                     self.black_box[i].append(5)
+            # 2 South
             elif self.box_y == len(self.black_box)-1:
                 temp =[[]]
                 for i in range(len(self.black_box[1])):
                     temp[0].append(5)
                 self.black_box = self.black_box + temp
+            # 3 West
             elif self.box_x == 0:
                 temp = [5]
                 for i in range(len(self.black_box)):
@@ -61,6 +70,7 @@ class My_run(object):
         else:
             self.black_box[self.front_y(self.box_y)][self.front_x(self.box_x)]=1
 
+    # turning right
     def right(self):
         if self.orientation%4==0:
             return self.black_box[self.box_y][self.box_x+1]
@@ -87,6 +97,7 @@ class My_run(object):
         else:
             return self.black_box[self.box_y][self.box_x-1]
 
+    # change coordinats in black box, won't move robot!
     def front_go(self):
         if self.orientation%4==0:
             self.box_y = self.box_y-1
@@ -103,6 +114,7 @@ class My_run(object):
         self.orientation = self.orientation - 2
         return temp
 
+    # main function
     def maze_cont(self,my_task):
         self.black_box = [[5,5,5],[5,0,5],[5,5,5]]
         self.box_y = 1
@@ -114,6 +126,7 @@ class My_run(object):
         while not self.my_task.found() and count <10000:
             count+=1
             self.orientation = self.orientation%4
+            #search 3 walls around
             if (self.right() + self.front() + self.left()+ self.back() == 3 \
                     or self.right() + self.front() + self.left()+ self.back() == 8)\
                     and self.black_box[self.box_y][self.box_x]!=1:
@@ -130,6 +143,8 @@ class My_run(object):
                         self.my_task.turn_right()
                         self.orientation +=1
                     self.black_box[self.box_y][self.box_x] = 1
+                    
+            #search unknown road
             if self.front() ==5:
                 self.face_check()
             elif self.right() ==5:
@@ -146,6 +161,7 @@ class My_run(object):
                 self.orientation+=3
                 self.face_check()
 
+            #search empty road
             if self.front() == 0:
                 if self.left() == 0:
                     self.my_task.turn_left()
@@ -166,11 +182,13 @@ class My_run(object):
                 self.my_task.turn_right()
                 self.orientation+=1 
 
+# creates an instance of the class, only need for incoming task
 def maze_controller(mr):
     my_var = My_run(mr)
     my_var.maze_cont(mr)
     
 
+# class something unknown... not my work =) and debugging function too
 class MazeRunner(object):
     
     def __init__(self, maze, start, finish):
@@ -216,7 +234,7 @@ class MazeRunner(object):
     def found(self):
         return self.__x == self.__finish[0] and self.__y == self.__finish[1]
 
-
+# program finished, that example for use:
 maze_example1 = {
     'm': [
         [0,1,0,0,0],
