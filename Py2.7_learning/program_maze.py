@@ -142,8 +142,7 @@ class My_run(object):
                     for i in range(temp):
                         self.my_task.turn_right()
                         self.orientation +=1
-                    self.black_box[self.box_y][self.box_x] = 1
-                    
+                    self.black_box[self.box_y][self.box_x] = 1                    
             #search unknown road
             if self.front() ==5:
                 self.face_check()
