@@ -28,4 +28,5 @@ while i<len(result):
 			text_now+= result[y+i-5+1]
 		answer+= alphabet[key.find(text_now)]
 	i+=1
+	
 print answer
