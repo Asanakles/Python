@@ -17,4 +17,5 @@ for letter in text:
 	coded_text+=new_letter
 print coded_text
 '''
+
 print shift
