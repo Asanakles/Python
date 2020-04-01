@@ -51,3 +51,4 @@ def encode_morze(text):
 	return rez_code
 
 print encode_morze('HOUSTON WE HAVE A PROBLEM')
+
