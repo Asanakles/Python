@@ -65,8 +65,7 @@ def	convert_n_to_m(x,n,m):
 		x_tens = x_tens/len(basic_m)
 	while x_m[0] == '0' and len(x_m)>1:
 		x_m = x_m[1:]
-	return x_m
-	
+	return x_m	
 
 
 #print convert_n_to_m(123, 4, 1)
